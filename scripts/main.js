@@ -1,11 +1,10 @@
-import Game from "./scenes/Game.js";
-import Preload from "./scenes/Preload.js";
+import Game from "../assets/scenes/Game.js";
+import Preload from "../assets/scenes/Preload.js";
 
 const config = {
   type: Phaser.AUTO,
-  width: 750,
-  height: 1334,
-  backgroundColor: 0x444444,
+  width: 640,
+  height: 960,
   scale: {
     mode: Phaser.Scale.FIT,
     autoCenter: Phaser.Scale.CENTER_BOTH,

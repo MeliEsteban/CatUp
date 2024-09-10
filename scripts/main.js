@@ -1,5 +1,7 @@
-import Game from "../assets/scenes/Game.js";
 import Preload from "../assets/scenes/Preload.js";
+import startScene from "../assets/scenes/startScene.js";
+import Game from "../assets/scenes/Game.js";
+import GameOver from '../assets/scenes/GameOver.js';
 
 const config = {
   type: Phaser.AUTO,
@@ -15,7 +17,7 @@ const config = {
       debug: true,
     },
   },
-  scene: [Preload, Game],
+  scene: [Preload, startScene, Game, GameOver],
 };
 
 window.game = new Phaser.Game(config);

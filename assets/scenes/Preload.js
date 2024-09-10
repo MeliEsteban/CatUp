@@ -11,26 +11,13 @@ export default class Preload extends Phaser.Scene {
     this.load.image("globo_2", "./assets/images/globoR.png");
     this.load.image("globo_3", "./assets/images/globoV.png");
     this.load.image("obs_1", "./assets/images/obs4.png");
+    this.load.image("obs_2", "./assets/images/obs3.png");
 
     this.load.audio("death", [
       "./assets/sounds/death.mp3",
-      "./assets/sounds/death.ogg",
-    ]);
-    this.load.audio("run", [
-      "./assets/sounds/run.mp3",
-      "./assets/sounds/run.ogg",
     ]);
     this.load.audio("stick", [
       "./assets/sounds/stick.mp3",
-      "./assets/sounds/stick.ogg",
-    ]);
-    this.load.audio("pick", [
-      "./assets/sounds/pick.mp3",
-      "./assets/sounds/pick.ogg",
-    ]);
-    this.load.audio("click", [
-      "./assets/sounds/click.mp3",
-      "./assets/sounds/click.ogg",
     ]);
 
     this.load.spritesheet("exp_glo1", "./assets/images/expNaranja.png", {
@@ -48,8 +35,7 @@ export default class Preload extends Phaser.Scene {
       frameHeight: 194,
     });
   }
-
-  create() {
-    this.scene.start("Game");
+    create() {
+    this.scene.start("startScene");
   }
 }

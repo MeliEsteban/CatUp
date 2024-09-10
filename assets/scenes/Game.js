@@ -5,17 +5,17 @@ export default class Game extends Phaser.Scene {
 
   init() {
     this.firstMove = true;
-    this.score = 0; // Inicializamos el score en 0
+    this.score = 0;
     this.sound.stopAll();
     this.balloonsRemaining = 3
-    this.starScore = 0; // Inicializar el contador de estrellas
+    this.starScore = 0; // Inicializa el contador de estrellas
     this.obstacleTextures = ["obs_1", "obs_2"]; 
   }
 
   create() {
-   // Inicializar cantidad de estrellas recolectadas
+   // Inicializa cantidad de estrellas recolectadas
     this.starScore = 0;
-
+    //musica
     this.music = this.sound.add("music", {
       volume: 0.4,
       loop: true,
@@ -29,7 +29,7 @@ export default class Game extends Phaser.Scene {
       0, 0, 
       this.game.config.width, this.game.config.height, 
       "nubes"
-    ).setOrigin(0, 0);  // Aseguramos que el origen esté en la esquina superior izquierda
+    ).setOrigin(0, 0);
 
     this.parallax.setDepth(0);  // Asegura que esté detrás de los otros objetos pero sobre el fondo
 
@@ -39,40 +39,40 @@ export default class Game extends Phaser.Scene {
     this.addPlayer(centerX);
     this.addBalloons(centerX);
 
-    // Crear grupo de figuras
+    // Grupo de figuras
     this.fallingShapes = this.physics.add.group({
       immovable: true, // Las figuras no se ven afectadas por colisiones
-      allowGravity: false, // Sin gravedad para las figuras
+      allowGravity: false, // Gravedad para las figuras
     });
 
-    // Crear grupo de estrellas
+    // Grupo de estrellas
     this.fallingStars = this.physics.add.group({
-      immovable: true, // Las figuras no se ven afectadas por colisiones
-      allowGravity: false, // Sin gravedad para las figuras
+      immovable: true, // Las estrellas no se ven afectadas por colisiones
+      allowGravity: false, // Gravedad para las estrellas
     });
 
-    // Iniciar temporizador para crear figuras cada 2 segundos
+    // Temporizador para crear figuras cada 2 segundos
     this.time.addEvent({
-      delay: 2000, // 2 segundos
+      delay: 2000,
       callback: this.createFallingShape, // Función para crear una nueva figura
       callbackScope: this,
       loop: true, // Repetir indefinidamente
     });
 
-    // Iniciar temporizador para crear figuras cada 2 segundos
+    // Temporizador para crear estrellas cada 2 segundos
     this.time.addEvent({
-      delay: 1000, // 2 segundos
-      callback: this.createFallingStar, // Función para crear una nueva figura
+      delay: 1000,
+      callback: this.createFallingStar, // Función para crear una nueva estrella
       callbackScope: this,
       loop: true, // Repetir indefinidamente
     });
 
-    // Detectar las flechas izquierda y derecha
+    // Flechas izquierda y derecha
     this.cursors = this.input.keyboard.createCursorKeys();
-
+    //Función para recolectar estrellas
     this.physics.add.overlap(this.player, this.fallingStars, this.collectStar, null, this);
 
-    //Texto de estrellas
+    //Texto de score de estrellas
     this.starScoreText = this.add.text(10, 10, 'Score: 0', {
       fontSize: '20px',
       fill: '#fff',
@@ -111,31 +111,31 @@ export default class Game extends Phaser.Scene {
   createFallingShape() {
     const randomTexture = Phaser.Utils.Array.GetRandom(this.obstacleTextures);
     const shape = this.fallingShapes.create(
-      Phaser.Math.Between(50, this.game.config.width), // Posición horizontal aleatoria
-      Phaser.Math.Between(-300, -150), // Posición vertical para que aparezca fuera de la pantalla
-    randomTexture // Aquí puedes usar la textura que desees para las figuras
+      Phaser.Math.Between(50, this.game.config.width),
+      Phaser.Math.Between(-300, -150),
+    randomTexture
   );
 
   if (randomTexture === "obs_1") {
-    shape.setScale(0.8); // Cambia el valor 0.5 según cuánto desees reducirlo (0.5 es la mitad de su tamaño original)
+    shape.setScale(0.8); 
   } ; 
   if (randomTexture === "obs_2") {
-    shape.setScale(0.5); // Cambia el valor 0.5 según cuánto desees reducirlo (0.5 es la mitad de su tamaño original)
+    shape.setScale(0.5);
   }
     shape.body.velocity.y = 190; // Velocidad de caída constante
   }
 
   createFallingStar() {
     const star = this.fallingStars.create(
-        Phaser.Math.Between(80, this.game.config.width), // Posición horizontal aleatoria
-        Phaser.Math.Between(-300, -150), // Posición vertical para que aparezca fuera de la pantalla
-        "star" // Aquí puedes usar la textura que desees para las figuras
+        Phaser.Math.Between(80, this.game.config.width), 
+        Phaser.Math.Between(-300, -150), 
+        "star"
       )
       .setScale(0.2);
-    star.body.velocity.y = 250; // Velocidad de caída constante
+    star.body.velocity.y = 250;
   }
 
-  // Lógica para la colisión de los globos con los obstáculos
+  // Lógica de colisión de los globos con los obstáculos
   balloonHit(balloon, shape) {
     // Ejecutar la animación de explosión correspondiente según el globo que haya sido impactado
     if (balloon.texture.key === "globo_1") {
@@ -149,17 +149,17 @@ export default class Game extends Phaser.Scene {
       this.playSound(this.sounds.stick, { volume: 0.5 });
     }
 
-    // Destruir el obstáculo (figura)
+    // Destruye el obstáculo (figura)
     shape.destroy();
 
-    // Destruir el globo después de que la animación haya terminado
+    // Destruye el globo después de que la animación haya terminado
     balloon.on("animationcomplete", () => {
       balloon.destroy();
 
-      // Reducir el número de globos restantes
+      // Reduce el número de globos restantes
       this.balloonsRemaining--;
 
-      // Verificar si ya no quedan globos, activar el game over
+      // Verifica si ya no quedan globos, activar el game over
       if (this.balloonsRemaining <= 0) {
         this.player.setVelocityY(200)
         this.playSound(this.sounds.death, {delay: 0.7, volume: 0.2 });
@@ -187,13 +187,13 @@ export default class Game extends Phaser.Scene {
 
     collectStar(player, star) {
 
-        // Destruir la estrella
+        // Destruye la estrella
         star.destroy();
     
-        // Sumar al contador de estrellas
+        // Suma al contador de estrellas
         this.starScore += 1;
         this.playSound(this.sounds.star, {volume: 0.3 });
-        // Actualizar el texto del puntaje
+        // Actualiza el texto del puntaje
         this.starScoreText.setText(`Score: ${this.starScore}`);
     }
 
@@ -211,6 +211,7 @@ export default class Game extends Phaser.Scene {
     this.background.setInteractive();
   }
 
+  // Posicion del jugador
   addPlayer(positionX) {
     this.player = this.physics.add
       .sprite(this.cameras.main.centerX, 800, "player")
@@ -223,11 +224,11 @@ export default class Game extends Phaser.Scene {
         return;
       }
 
-      // Mover el jugador
+      // Movimiento el jugador
       if (this.cursors.left.isDown) {
         this.player.setVelocityX(-300);
 
-        // Solo mover los globos si todavía existen
+        // Solo m los globos si todavía existen
         if (this.globo_1 && this.globo_1.active) {
           this.globo_1.setVelocityX(-300);
         }
@@ -269,7 +270,7 @@ export default class Game extends Phaser.Scene {
     }
 
     createExplosionsAnimations() {
-      // Crear animaciones de explosión para los globos
+      // Crea la animacion de explosión para cada globos
       const animationExplosion1 = this.anims.generateFrameNumbers("exp_glo1");
       const antExplo1 = animationExplosion1.slice();
       antExplo1.reverse();

@@ -17,7 +17,7 @@ export default class Game extends Phaser.Scene {
     this.starScore = 0;
 
     this.music = this.sound.add("music", {
-      volume: 0.3,
+      volume: 0.4,
       loop: true,
      })
 
@@ -76,7 +76,7 @@ export default class Game extends Phaser.Scene {
     this.starScoreText = this.add.text(10, 10, 'Score: 0', {
       fontSize: '20px',
       fill: '#fff',
-      fontFamily: 'Arial Black',
+      fontFamily: 'Arial',
     });
 
     this.physics.add.collider(
@@ -106,11 +106,7 @@ export default class Game extends Phaser.Scene {
     }
 
     this.parallax.tilePositionY -= 0.8;
-
   }
-
-
-
   // Crear una figura que cae de forma individual
   createFallingShape() {
     const randomTexture = Phaser.Utils.Array.GetRandom(this.obstacleTextures);
@@ -189,7 +185,6 @@ export default class Game extends Phaser.Scene {
     this.globo_3.setGravityY(0);
   }
 
-    
     collectStar(player, star) {
 
         // Destruir la estrella
@@ -197,7 +192,7 @@ export default class Game extends Phaser.Scene {
     
         // Sumar al contador de estrellas
         this.starScore += 1;
-        this.playSound(this.sounds.star, {volume: 0.4 });
+        this.playSound(this.sounds.star, {volume: 0.3 });
         // Actualizar el texto del puntaje
         this.starScoreText.setText(`Score: ${this.starScore}`);
     }

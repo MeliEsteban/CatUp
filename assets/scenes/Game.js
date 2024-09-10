@@ -5,7 +5,6 @@ export default class Game extends Phaser.Scene {
 
   init() {
     this.firstMove = true;
-    this.platformTouched = false;
     this.score = 0; // Inicializamos el score en 0
     this.sound.stopAll();
     this.balloonsRemaining = 3
@@ -17,10 +16,26 @@ export default class Game extends Phaser.Scene {
    // Inicializar cantidad de estrellas recolectadas
     this.starScore = 0;
 
+    this.music = this.sound.add("music", {
+      volume: 0.3,
+      loop: true,
+     })
+
+    this.music.play();
+
+    this.addBackground();
+
+    this.parallax = this.add.tileSprite(
+      0, 0, 
+      this.game.config.width, this.game.config.height, 
+      "nubes"
+    ).setOrigin(0, 0);  // Aseguramos que el origen esté en la esquina superior izquierda
+
+    this.parallax.setDepth(0);  // Asegura que esté detrás de los otros objetos pero sobre el fondo
+
     const centerX = this.game.config.width / 2;
 
     this.addSounds();
-    this.addBackground();
     this.addPlayer(centerX);
     this.addBalloons(centerX);
 
@@ -86,9 +101,15 @@ export default class Game extends Phaser.Scene {
       this.cameras.main.shake(200, 0.01);
       this.scene.start("gameOver", { starScore: this.starScore });
       this.physics.pause();
+      this.music.stop();
       return;
     }
+
+    this.parallax.tilePositionY -= 0.8;
+
   }
+
+
 
   // Crear una figura que cae de forma individual
   createFallingShape() {
@@ -168,7 +189,7 @@ export default class Game extends Phaser.Scene {
     this.globo_3.setGravityY(0);
   }
 
-
+/* 
     collectStar(player, star) {
       try {
         // Destruir la estrella
@@ -176,12 +197,26 @@ export default class Game extends Phaser.Scene {
     
         // Sumar al contador de estrellas
         this.starScore += 1;
-    
+        this.playSound(this.sounds.star, {delay: 0.7, volume: 0.2 });
         // Actualizar el texto del puntaje
         this.starScoreText.setText(`Score: ${this.starScore}`);
-      } catch (error) {
+      }
+       catch (error) {
         console.error("Error en collectStar:", error);
       }
+    }
+ */
+    
+    collectStar(player, star) {
+
+        // Destruir la estrella
+        star.destroy();
+    
+        // Sumar al contador de estrellas
+        this.starScore += 1;
+        this.playSound(this.sounds.star, {volume: 0.4 });
+        // Actualizar el texto del puntaje
+        this.starScoreText.setText(`Score: ${this.starScore}`);
     }
 
 
@@ -189,6 +224,7 @@ export default class Game extends Phaser.Scene {
     this.sounds = {
       death: this.sound.add("death"),
       stick: this.sound.add("stick"),
+      star: this.sound.add("star")
     };
   }
 

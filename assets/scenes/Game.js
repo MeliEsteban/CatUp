@@ -143,13 +143,13 @@ export default class Game extends Phaser.Scene {
   balloonHit(balloon, shape) {
     // Ejecutar la animación de explosión correspondiente según el globo que haya sido impactado
     if (balloon.texture.key === "globo_1") {
-      balloon.play("boom1", true);
+      balloon.play("boom1", false);
       this.playSound(this.sounds.stick, { volume: 0.5 });
     } else if (balloon.texture.key === "globo_2") {
-      balloon.play("boom2", true);
+      balloon.play("boom2", false);
       this.playSound(this.sounds.stick, { volume: 0.5 });
     } else if (balloon.texture.key === "globo_3") {
-      balloon.play("boom3", true);
+      balloon.play("boom3", false);
       this.playSound(this.sounds.stick, { volume: 0.5 });
     }
 
@@ -189,23 +189,6 @@ export default class Game extends Phaser.Scene {
     this.globo_3.setGravityY(0);
   }
 
-/* 
-    collectStar(player, star) {
-      try {
-        // Destruir la estrella
-        star.destroy();
-    
-        // Sumar al contador de estrellas
-        this.starScore += 1;
-        this.playSound(this.sounds.star, {delay: 0.7, volume: 0.2 });
-        // Actualizar el texto del puntaje
-        this.starScoreText.setText(`Score: ${this.starScore}`);
-      }
-       catch (error) {
-        console.error("Error en collectStar:", error);
-      }
-    }
- */
     
     collectStar(player, star) {
 
@@ -299,7 +282,7 @@ export default class Game extends Phaser.Scene {
       this.anims.create({
         key: "boom1",
         frames: anExp1,
-        frameRate: 50,
+        frameRate: 10,
         repeat: false,
       });
 
@@ -310,7 +293,7 @@ export default class Game extends Phaser.Scene {
       this.anims.create({
         key: "boom2",
         frames: anExp2,
-        frameRate: 48,
+        frameRate: 7,
         repeat: false,
       });
 
@@ -321,7 +304,7 @@ export default class Game extends Phaser.Scene {
       this.anims.create({
         key: "boom3",
         frames: anExp3,
-        frameRate: 48,
+        frameRate: 10,
         repeat: false,
       });
     }

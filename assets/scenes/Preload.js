@@ -27,20 +27,21 @@ export default class Preload extends Phaser.Scene {
       "./assets/sounds/music.mp3",
     ]);
 
-    this.load.spritesheet("exp_glo1", "./assets/images/expNaranja.png", {
-      frameWidth: 140,
-      frameHeight: 110,
+     this.load.spritesheet("exp_glo1", "./assets/images/expNaranja.png", {
+      frameWidth: 133,
+      frameHeight: 139,
     });
 
     this.load.spritesheet("exp_glo2", "./assets/images/expRosa.png", {
-      frameWidth: 268,
-      frameHeight: 159,
+      frameWidth: 133,
+      frameHeight: 125,
     });
 
     this.load.spritesheet("exp_glo3", "./assets/images/expVerde.png", {
-      frameWidth: 373,
-      frameHeight: 194,
-    });
+      frameWidth: 200,
+      frameHeight: 188,
+    }); 
+
   }
     create() {
     this.scene.start("startScene");
